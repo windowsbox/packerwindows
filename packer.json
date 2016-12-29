@@ -1,0 +1,55 @@
+{
+  "variables": {
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/C/3/9/C399EEA8-135D-4207-92C9-6AAB3259F6EF/10240.16384.150709-1700.TH1_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+    "iso_checksum": "56ab095075be28a90bc0b510835280975c6bb2ce",
+    "headless": "true"
+  },
+  "builders": [
+  {    
+    "type": "virtualbox-iso",
+    "communicator": "winrm",
+    "disk_size": 61440,
+    "floppy_files": [
+      "Autounattend.xml",
+      "preprovision.ps1"
+    ],
+    "guest_os_type": "Windows10_64",
+    "headless": "{{user `headless`}}",
+    "iso_url": "{{user `iso_url`}}",
+    "iso_checksum_type": "sha1",
+    "iso_checksum": "{{user `iso_checksum`}}",
+    "winrm_username": "vagrant",
+    "winrm_password": "vagrant",
+    "winrm_timeout": "3h",
+    "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+    "post_shutdown_delay": "30s",
+    "guest_additions_mode": "attach",
+    "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+        [ "modifyvm", "{{.Name}}", "--vram", "32" ]
+      ]
+    } 
+  ],
+  "provisioners": [
+  {
+    "type": "powershell",
+    "execute_command": "powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\"",
+    "scripts": [
+      "provision.ps1"
+    ]},
+  {
+    "type": "windows-restart",
+    "restart_command": "powershell \"& {(Get-WmiObject win32_operatingsystem).LastBootUpTime > C:\\ProgramData\\lastboot.txt; Restart-Computer -force}\"",
+    "restart_check_command": "powershell -command \"& {if ((get-content C:\\ProgramData\\lastboot.txt) -eq (Get-WmiObject win32_operatingsystem).LastBootUpTime) {Write-Output 'Sleeping for 600 seconds to wait for reboot'; start-sleep 600} else {Write-Output 'Reboot complete'}}\""
+  }
+],  
+ "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": false,
+      "output": "{{.Provider}}_windows-10.box",
+      "vagrantfile_template": "vagrantfile.template"
+    }
+  ]
+}
