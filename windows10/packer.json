@@ -5,44 +5,60 @@
     "headless": "true"
   },
   "builders": [
-  {    
-    "type": "virtualbox-iso",
-    "communicator": "winrm",
-    "disk_size": 61440,
-    "floppy_files": [
-      "windows10/Autounattend.xml",
-      "../preprovision.ps1"
-    ],
-    "guest_os_type": "Windows10_64",
-    "headless": "{{user `headless`}}",
-    "iso_url": "{{user `iso_url`}}",
-    "iso_checksum_type": "sha1",
-    "iso_checksum": "{{user `iso_checksum`}}",
-    "winrm_username": "vagrant",
-    "winrm_password": "vagrant",
-    "winrm_timeout": "3h",
-    "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-    "post_shutdown_delay": "30s",
-    "guest_additions_mode": "attach",
-    "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
-        [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
-        [ "modifyvm", "{{.Name}}", "--vram", "32" ]
+    {
+      "type": "virtualbox-iso",
+      "communicator": "winrm",
+      "disk_size": 61440,
+      "floppy_files": [
+        "windows10/Autounattend.xml",
+        "../preprovision.ps1"
+      ],
+      "guest_os_type": "Windows10_64",
+      "headless": "{{user `headless`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "sha1",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "3h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "post_shutdown_delay": "30s",
+      "guest_additions_mode": "attach",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "2048"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "32"
+        ]
       ]
-    } 
+    }
   ],
   "provisioners": [
-  {
-    "type": "powershell",
-    "execute_command": "powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\"",
-    "scripts": [
-      "../provision.ps1"
-    ]},
-  {
-    "type": "windows-restart"
-  }
-],  
- "post-processors": [
+    {
+      "type": "powershell",
+      "execute_command": "powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\"",
+      "scripts": [
+        "../provision.ps1"
+      ]
+    },
+    {
+      "type": "windows-restart"
+    }
+  ],
+  "post-processors": [
     {
       "type": "vagrant",
       "output": "{{.Provider}}_windows-10.box",
