@@ -11,7 +11,7 @@
       "disk_size": 61440,
       "floppy_files": [
         "windows10/Autounattend.xml",
-        "../preprovision.ps1"
+        "preprovision.ps1"
       ],
       "guest_os_type": "Windows10_64",
       "headless": "{{user `headless`}}",
@@ -29,7 +29,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "2048"
+          "4098"
         ],
         [
           "modifyvm",
@@ -51,7 +51,8 @@
       "type": "powershell",
       "execute_command": "powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\"",
       "scripts": [
-        "../provision.ps1"
+        "provision.ps1",
+        "devtools.ps1"
       ]
     },
     {
@@ -61,8 +62,8 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{.Provider}}_windows-10.box",
-      "vagrantfile_template": "vagrantfile.template"
+      "output": "{{.Provider}}_windows10dev.box",
+      "vagrantfile_template": "windows10/vagrantfile.template"
     }
   ]
 }
