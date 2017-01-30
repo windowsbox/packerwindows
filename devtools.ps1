@@ -14,3 +14,4 @@ choco install sql-server-management-studio -y
 choco install nodejs.install -y
 choco install cloudfoundry-cli -y
 choco install nuget.commandline -y
+choco install typescript-vs2015
