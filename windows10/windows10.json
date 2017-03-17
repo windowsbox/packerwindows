@@ -1,7 +1,7 @@
 {
   "variables": {
-    "iso_url": "http://care.dlservice.microsoft.com/dl/download/C/3/9/C399EEA8-135D-4207-92C9-6AAB3259F6EF/10240.16384.150709-1700.TH1_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
-    "iso_checksum": "56ab095075be28a90bc0b510835280975c6bb2ce",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+    "iso_checksum": "f32f451fb702a8660f1cf4ebf714ca38e44b193d54521dd6a9d567fcc3655f97",
     "headless": "true"
   },
   "builders": [
@@ -16,7 +16,7 @@
       "guest_os_type": "Windows10_64",
       "headless": "{{user `headless`}}",
       "iso_url": "{{user `iso_url`}}",
-      "iso_checksum_type": "sha1",
+      "iso_checksum_type": "sha256",
       "iso_checksum": "{{user `iso_checksum`}}",
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
@@ -29,7 +29,7 @@
           "modifyvm",
           "{{.Name}}",
           "--memory",
-          "2048"
+          "4096"
         ],
         [
           "modifyvm",
@@ -50,10 +50,13 @@
     {
       "type": "powershell",
       "execute_command": "powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\"",
-      "scripts": [
-        "provision.ps1"
-      ]
+      "scripts": ["provision.ps1"]
     },
+    {
+      "type": "powershell",
+      "execute_command": "IF \"{{user `devtools`}}\" NEQ \"\" (powershell -ExecutionPolicy Bypass \"& { {{.Vars}}{{.Path}}; exit $LastExitCode}\")",
+      "scripts": ["devtools.ps1"]
+    },    
     {
       "type": "windows-restart"
     }
@@ -61,7 +64,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "{{.Provider}}_windows10dev.box",
+      "output": "{{.Provider}}_windows10.box",
       "vagrantfile_template": "windows10/vagrantfile.template"
     }
   ]

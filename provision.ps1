@@ -8,10 +8,12 @@ Install-Module WindowsBox.RDP -Force
 Install-Module WindowsBox.UAC -Force
 Install-Module WindowsBox.VagrantAccount -Force
 Install-Module WindowsBox.VMGuestTools -Force
+Install-Module WindowsBox.DevTools -Force
 
 Disable-AutoLogon
 Disable-UAC
 Enable-RDP
+Enable-DevTools
 Set-ExplorerConfiguration
 Disable-Hibernation
 Set-VagrantAccount
