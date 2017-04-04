@@ -27,7 +27,13 @@ if ($env:devtools -eq $true) {
 
   choco install powershell-packagemanagement -y
   choco install visualstudio2017community -y
-  choco install resharper -pre -y
+  choco install visualstudio2017-workload-netcoretools -y
+  choco install visualstudio2017-workload-netweb -y
+  choco install visualstudio2017-workload-node -y
+  choco install visualstudio2017-workload-azure -y
+  choco install visualstudio2017-workload-nativedesktop -y
+  choco install visualstudio2017-workload-manageddesktop -y
+  choco install resharper -y
   choco install notepadplusplus.install -y
   choco install googlechrome -y
   choco install git.install -y
@@ -38,6 +44,10 @@ if ($env:devtools -eq $true) {
   choco install cloudfoundry-cli -y
   choco install nuget.commandline -y
   choco install soapui -y
+
+  # Create a default PowerShell profile and add the msbuild.exe to the PATH
+  '$env:PATH="$env:PATH;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin"' `
+    | Out-File "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
 }
 
 # Final cleanup
