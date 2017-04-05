@@ -46,8 +46,7 @@ if ($env:devtools -eq $true) {
   choco install soapui -y
 
   # Create a default PowerShell profile and add the msbuild.exe to the PATH
-  '$env:PATH="$env:PATH;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin"' `
-    | Out-File "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
+  '$env:PATH="$env:PATH;C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin"' | Out-File "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
 }
 
 # Final cleanup
