@@ -1,6 +1,6 @@
 {
   "variables": {
-    "iso_url": "http://192.168.1.231:8000/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
+    "iso_url": "http://care.dlservice.microsoft.com/dl/download/2/5/4/254230E8-AEA5-43C5-94F6-88CE222A5846/14393.0.160715-1616.RS1_RELEASE_CLIENTENTERPRISEEVAL_OEMRET_X64FRE_EN-US.ISO",
     "iso_checksum": "f32f451fb702a8660f1cf4ebf714ca38e44b193d54521dd6a9d567fcc3655f97",
     "headless": "true",
     "devtools": "false"
