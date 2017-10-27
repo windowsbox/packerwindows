@@ -50,7 +50,6 @@
   "provisioners": [
     {
       "type": "powershell",
-      "execute_command": "Set-ExecutionPolicy Bypass -Scope Process -Force; if (Test-Path variable:global:ProgressPreference){$ProgressPreference='SilentlyContinue'};{{.Vars}}&'{{.Path}}';exit $LastExitCode",
       "scripts": ["provision.ps1"],
       "environment_vars": ["devtools={{user `devtools`}}"]
     },
