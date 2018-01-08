@@ -7,3 +7,4 @@
 /output-virtualbox-ovf/
 /*.box
 /packer_cache/
+variables.json
