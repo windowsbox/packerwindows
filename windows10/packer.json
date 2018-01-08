@@ -60,7 +60,8 @@
       "environment_vars": ["devtools={{user `devtools`}}"]
     },
     {
-      "type": "windows-restart"
+      "type": "windows-restart",
+      "restart_timeout": "10m"
     }
   ],
   "post-processors": [
