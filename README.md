@@ -7,7 +7,7 @@ This project makes use of [reusable PowerShell modules](https://github.com/windo
 ## Building a Box
 
 1. Clone this repository
-2. Install [Packer](http://packer.io) 0.12.1 or newer
+2. Install [Packer](http://packer.io) 1.1.1 or newer
 3. Execute Packer (see below)
 
 The Windows10 template supports a plain vanilla Windows10 Vagrant box or a Windows10 Vagrant box with a bunch of .NET development tools.
@@ -16,7 +16,7 @@ The Windows10 template supports a plain vanilla Windows10 Vagrant box or a Windo
 
 The plain vanilla build creates a Windows 10 box with Windows updates and not much else.
 ```
-$ packer build windows10/windows10.json
+$ packer build windows10/packer.json
 ```
 
 ### Windows10 .NET Developer Box
@@ -37,7 +37,36 @@ The .NET developer Vagrant box includes everything the vanilla box includes plus
 - Nuget CLI 
 
 ```
-$ packer build -var devtools=true windows10/windows10.json
+$ packer build -var devtools=true windows10/packer.json
+```
+
+## Development
+
+### Local ISOs
+
+You may want to use a Windows ISO already downloaded because you cleared your Packer cache or for other reasons. The simplest way to use an already existing ISO on your HDD is to serve it up via Python. From the directory where the ISO exists run: `python -m SimpleHTTPServer`. Then override the iso_url variable to point to your local machine IP, for example:
+
+```
+$ packer build -var 'iso_url=http://10.0.0.207:8000/windows.iso' windows10/packer.json
+```
+
+### Local PowerShell Module Testing
+
+You may want to test a WindowsBox PowerShell Modules change before committing and publishing it. The quickest way to do that is to make the necessary script changes and then provide the script to the guest VM through the `a:\` drive. Mount the locally modified script by modifying the packer.json and add a floppy files entry, for example:
+
+```
+"floppy_files": [
+  "../powershellmodules/modules/WindowsBox.WinRM/WindowsBox.WinRM.psm1",
+  ...
+```
+
+Then you need to temporarily change how that module is loaded, from:
+```
+Install-Module WindowsBox.WinRM -Force
+```
+to
+```
+Import-Module -Name a:\WindowsBox.WinRM.psm1 -DisableNameChecking -Force
 ```
 
 ## Thanks
