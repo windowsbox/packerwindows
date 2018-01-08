@@ -12,7 +12,7 @@
       "disk_size": 61440,
       "floppy_files": [
         "windows10/Autounattend.xml",
-        "preprovision.ps1"
+        "firstboot.ps1"
       ],
       "guest_os_type": "Windows10_64",
       "headless": "{{user `headless`}}",
@@ -48,6 +48,12 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "scripts": ["windowsupdates.ps1"]
+    },
     {
       "type": "powershell",
       "scripts": ["provision.ps1"],

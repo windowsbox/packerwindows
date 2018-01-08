@@ -3,9 +3,10 @@
 # We explicitly install nuget because install-module prompts for confirmation even with -Force
 Install-PackageProvider -Name Nuget -Force
 
-# Install and execute Windows updates and start WinRM when complete
+# Configure the network to private so we can properly configure WinRM
 Install-Module WindowsBox.Network -Force
-Install-Module WindowsBox.WindowsUpdates -Force
-
 Set-NetworkToPrivate
-Install-WindowsUpdates
+
+# Enable WinRM insecurely for local Packer provisioners
+Install-Module WindowsBox.WinRM -Force
+Enable-InsecureWinRM

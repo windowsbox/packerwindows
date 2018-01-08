@@ -89,8 +89,8 @@
             </OOBE>
             <FirstLogonCommands>
                 <SynchronousCommand wcm:action="add">
-                    <CommandLine>powershell -NoLogo -ExecutionPolicy RemoteSigned -File a:\preprovision.ps1</CommandLine>
-                    <Description>Update Windows and start WinRM when complete</Description>
+                    <CommandLine>powershell -NoLogo -ExecutionPolicy RemoteSigned -File a:\firstboot.ps1</CommandLine>
+                    <Description>Start WinRM</Description>
                     <Order>1</Order>
                 </SynchronousCommand>
             </FirstLogonCommands>
