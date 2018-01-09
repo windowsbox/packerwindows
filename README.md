@@ -44,10 +44,18 @@ $ packer build -var devtools=true windows10/packer.json
 
 ### Local ISOs
 
-You may want to use a Windows ISO already downloaded because you cleared your Packer cache or for other reasons. The simplest way to use an already existing ISO on your HDD is to serve it up via Python. From the directory where the ISO exists run: `python -m SimpleHTTPServer`. Then override the iso_url variable to point to your local machine IP, for example:
+You may want to use a Windows ISO already downloaded because you cleared your Packer cache or for other reasons. The simplest way to use an already existing ISO on your HDD is to serve it up via Python. From the directory where the ISO exists run: `python -m SimpleHTTPServer`. Then override the `iso_url` and `iso_checksum` variables by creating a variables.json file.
 
 ```
-$ packer build -var 'iso_url=http://10.0.0.207:8000/windows.iso' windows10/packer.json
+{
+  "iso_url": "http://10.0.0.207:8000/en_windows_10_multi-edition_vl_version_1709_updated_dec_2017_x64_dvd_100406172.iso",
+  "iso_checksum": "f38b0aeae0756e01dcd9b1600de62416e04aa963c72cea30929141f54f1235b3"
+}
+
+```
+
+```
+$ packer build -var-file windows10/variables.json windows10/packer.json
 ```
 
 ### Local PowerShell Module Testing
