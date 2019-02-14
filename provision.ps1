@@ -17,6 +17,12 @@ Disable-Hibernation
 Set-VagrantAccount
 Install-VMGuestTools
 
+# Install Docker if the provider is available on this OS
+Install-Module DockerMsftProvider -Force
+if ((Get-PackageProvider -ListAvailable).Name -Contains "DockerMsftProvider") {
+  Install-Package -Name docker -ProviderName DockerMsftProvider -Force
+}
+
 if ($env:devtools -eq $true) {
   # Install Linux subsystem
   Install-Module WindowsBox.DevMode -Force
