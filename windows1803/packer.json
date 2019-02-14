@@ -1,0 +1,74 @@
+{
+  "variables": {
+    "iso_url": "",
+    "iso_checksum": "",
+    "headless": "true",
+    "devtools": "false"
+  },
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "communicator": "winrm",
+      "disk_size": 61440,
+      "floppy_files": [
+        "windows1803/Autounattend.xml",
+        "firstboot.ps1"
+      ],
+      "guest_os_type": "Windows2016_64",
+      "headless": "{{user `headless`}}",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "sha256",
+      "iso_checksum": "{{user `iso_checksum`}}",
+      "winrm_username": "vagrant",
+      "winrm_password": "vagrant",
+      "winrm_timeout": "3h",
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+      "post_shutdown_delay": "30s",
+      "guest_additions_mode": "attach",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "4096"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "2"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--vram",
+          "32"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "powershell",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant",
+      "scripts": ["windowsupdates.ps1"]
+    },
+    {
+      "type": "powershell",
+      "scripts": ["provision.ps1"],
+      "environment_vars": ["devtools={{user `devtools`}}"]
+    },
+    {
+      "type": "windows-restart",
+      "restart_timeout": "10m"
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "{{.Provider}}_windows1803.box",
+      "vagrantfile_template": "windows1803/vagrantfile.template"
+    }
+  ]
+}
