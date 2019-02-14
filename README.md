@@ -7,19 +7,42 @@ This project makes use of [reusable PowerShell modules](https://github.com/windo
 ## Building a Box
 
 1. Clone this repository
-2. Install [Packer](http://packer.io) 1.1.1 or newer
+2. Install [Packer](http://packer.io) 1.3.4 or newer
 3. Execute Packer (see below)
 
-The Windows10 template supports a plain vanilla Windows10 Vagrant box or a Windows10 Vagrant box with a bunch of .NET development tools.
+You may need to set the `iso_url` and `iso_checksum` variables as some builds expect you to have downloaded an ISO from MSDN and have no default set. A good way to handle this is to use a Packer vars file. You may also need to set the product key code in the Autounattend.xml file depending on the OS installation media chosen.
 
-### Windows10 Vanilla Box
+The Windows templates support a plain vanilla Windows Vagrant box or a Windows Vagrant box with a bunch of .NET development tools. The examples below are shown without installing the dev tools.
+
+### Windows10
 
 The plain vanilla build creates a Windows 10 box with Windows updates and not much else.
 ```
 $ packer build windows10/packer.json
 ```
 
-### Windows10 .NET Developer Box
+### Windows Server 2016
+
+The plain vanilla build creates a Windows Server 2016 box with Windows updates and not much else other than Docker.
+```
+$ packer build windows2016/packer.json
+```
+
+### Windows Server 1803
+
+The plain vanilla build creates a Windows Server 1803 box with Windows updates and not much else other than Docker.
+```
+$ packer build windows1803/packer.json
+```
+
+### Windows Server 2019
+
+The plain vanilla build creates a Windows Server 2019 box with Windows updates and not much else other than Docker.
+```
+$ packer build windows2019/packer.json
+```
+
+### Development Tools Installation
 
 The .NET developer Vagrant box includes everything the vanilla box includes plus the following tools:
 - Powershell Packagemanagement
@@ -36,6 +59,7 @@ The .NET developer Vagrant box includes everything the vanilla box includes plus
 - CloudFoundry CLI
 - Nuget CLI 
 
+If you want the development tools add `-var devtools=true` to your Packer command line, for example:
 ```
 $ packer build -var devtools=true windows10/packer.json
 ```
