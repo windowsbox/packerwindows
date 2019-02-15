@@ -7,6 +7,9 @@ Install-PackageProvider -Name Nuget -Force
 Install-Module WindowsBox.Network -Force
 Set-NetworkToPrivate
 
-# Enable WinRM insecurely for local Packer provisioners
-Install-Module WindowsBox.WinRM -Force
-Enable-InsecureWinRM
+# Kick off the WinRM script that polls for updates to be complete
+Start-Job -ScriptBlock { C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoLogo -ExecutionPolicy Bypass -File a:\winrm.ps1 }
+
+# Install all available Windows updates
+Install-Module WindowsBox.WindowsUpdates -Force
+Install-WindowsUpdates
