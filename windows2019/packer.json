@@ -12,7 +12,8 @@
       "disk_size": 61440,
       "floppy_files": [
         "windows2019/Autounattend.xml",
-        "firstboot.ps1"
+        "firstboot.ps1",
+        "winrm.ps1"
       ],
       "guest_os_type": "Windows2016_64",
       "headless": "{{user `headless`}}",
@@ -50,17 +51,12 @@
   "provisioners": [
     {
       "type": "powershell",
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "scripts": ["windowsupdates.ps1"]
-    },
-    {
-      "type": "powershell",
       "scripts": ["provision.ps1"],
       "environment_vars": ["devtools={{user `devtools`}}"]
     },
     {
-      "type": "windows-restart"
+      "type": "windows-restart",
+      "restart_timeout": "10m"
     }
   ],
   "post-processors": [
