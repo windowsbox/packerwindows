@@ -32,13 +32,13 @@ if ($env:devtools -eq $true) {
   Invoke-WebRequest https://chocolatey.org/install.ps1 -UseBasicParsing | Invoke-Expression
 
   choco install powershell-packagemanagement -y
-  choco install visualstudio2017community -y
-  choco install visualstudio2017-workload-netcoretools -y
-  choco install visualstudio2017-workload-netweb -y
-  choco install visualstudio2017-workload-node -y
-  choco install visualstudio2017-workload-azure -y
-  choco install visualstudio2017-workload-nativedesktop -y
-  choco install visualstudio2017-workload-manageddesktop -y
+  choco install visualstudio2019community -y
+  choco install visualstudio2019-workload-netcoretools -y
+  choco install visualstudio2019-workload-netweb -y
+  choco install visualstudio2019-workload-node -y
+  choco install visualstudio2019-workload-azure -y
+  choco install visualstudio2019-workload-nativedesktop -y
+  choco install visualstudio2019-workload-manageddesktop -y
   choco install resharper -y
   choco install notepadplusplus.install -y
   choco install googlechrome -y
