@@ -27,5 +27,5 @@ if ($prop) {
 }
 
 # Enable WinRM insecurely for local Packer provisioners
-Install-Module WindowsBox.WinRM -Force
+. a:\modules\WindowsBox.WinRM.ps1
 Enable-InsecureWinRM

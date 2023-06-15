@@ -1,51 +1,54 @@
 {
   "variables": {
-    "iso_url": "https://software-download.microsoft.com/download/sg/17763.253.190108-0006.rs5_release_svc_refresh_SERVER_EVAL_x64FRE_en-us.iso",
-    "iso_checksum": "57faf4a2ea4484cfdf5e964c539313c061c4d9cac474e723d60405f2ea02d570",
-    "headless": "true",
     "devtools": "false"
   },
   "builders": [
     {
-      "type": "virtualbox-iso",
-      "communicator": "winrm",
-      "disk_size": 61440,
+      "type": "vsphere-iso",
+      "CPUs": 2,
+      "RAM": 4096,
+      "iso_paths": [
+        "[vsanDatastore] ISO/en-us_windows_server_2019_x64_dvd_f9475476.iso",
+        "[vsanDatastore] ISO/windows.iso"
+      ],
       "floppy_files": [
         "windows2019/Autounattend.xml",
         "firstboot.ps1",
-        "winrm.ps1"
+        "winrm.ps1",
+        "modules/WindowsBox.AutoLogon.psm1",
+        "modules/WindowsBox.Compact.psm1",
+        "modules/WindowsBox.DevMode.psm1",
+        "modules/WindowsBox.Explorer.psm1",
+        "modules/WindowsBox.Hibernation.psm1",
+        "modules/WindowsBox.Network.psm1",
+        "modules/WindowsBox.RDP.psm1",
+        "modules/WindowsBox.UAC.psm1",
+        "modules/WindowsBox.VMGuestTools.psm1",
+        "modules/WindowsBox.WinRM.psm1"
       ],
-      "guest_os_type": "Windows2016_64",
-      "headless": "{{user `headless`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum_type": "sha256",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "winrm_username": "vagrant",
-      "winrm_password": "vagrant",
+      "network_adapters": [
+        {
+          "network_card": "vmxnet3"
+        }
+      ],
+      "storage": [
+        {
+          "disk_size": 131072,
+          "disk_thin_provisioned": true
+        }
+      ],
+      "guest_os_type": "windows2019srv_64Guest",
+      "username": "administrator@vsphere.local",
+      "password": "{{user `vsphere_password`}}",
+      "vcenter_server": "{{user `vsphere_host`}}",
+      "host": "{{user `esxi_host`}}",
+      "vm_name": "win2019",
+      "communicator": "winrm",
+      "insecure_connection": "true",
+      "winrm_username": "Administrator",
+      "winrm_password": "{{user `windows_password`}}",
       "winrm_timeout": "3h",
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "post_shutdown_delay": "30s",
-      "guest_additions_mode": "attach",
-      "vboxmanage": [
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--memory",
-          "4096"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--cpus",
-          "2"
-        ],
-        [
-          "modifyvm",
-          "{{.Name}}",
-          "--vram",
-          "32"
-        ]
-      ]
+      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\""
     }
   ],
   "provisioners": [
@@ -57,13 +60,6 @@
     {
       "type": "windows-restart",
       "restart_timeout": "10m"
-    }
-  ],
-  "post-processors": [
-    {
-      "type": "vagrant",
-      "output": "{{.Provider}}_windows2019.box",
-      "vagrantfile_template": "windows2019/vagrantfile.template"
     }
   ]
 }
