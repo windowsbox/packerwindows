@@ -2,7 +2,7 @@
 <unattend xmlns="urn:schemas-microsoft-com:unattend">
     <settings pass="specialize">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <ComputerName>vagrant-win2019</ComputerName>
+            <ComputerName>win2019</ComputerName>
             <RegisteredOrganization>Microsoft</RegisteredOrganization>
             <TimeZone>Pacific Standard Time</TimeZone>
         </component>
@@ -68,8 +68,8 @@
             </ImageInstall>
             <UserData>
                 <AcceptEula>true</AcceptEula>
-                <FullName>Vagrant Administrator</FullName>
-                <Organization>Vagrant Inc.</Organization>
+                <FullName>Administrator</FullName>
+                <Organization>TBD</Organization>
             </UserData>
             <DiskConfiguration>
                 <Disk wcm:action="add">
@@ -106,28 +106,6 @@
     </settings>
     <settings pass="oobeSystem">
         <component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-            <UserAccounts>
-                <LocalAccounts>
-                    <LocalAccount wcm:action="add">
-                        <Password>
-                            <Value>dgBhAGcAcgBhAG4AdABQAGEAcwBzAHcAbwByAGQA</Value>
-                            <PlainText>false</PlainText>
-                        </Password>
-                        <Description>Vagrant User</Description>
-                        <DisplayName>vagrant</DisplayName>
-                        <Group>Administrators</Group>
-                        <Name>vagrant</Name>
-                    </LocalAccount>
-                </LocalAccounts>
-            </UserAccounts>
-            <AutoLogon>
-                <Password>
-                    <Value>dgBhAGcAcgBhAG4AdABQAGEAcwBzAHcAbwByAGQA</Value>
-                    <PlainText>false</PlainText>
-                </Password>
-                <Enabled>true</Enabled>
-                <Username>vagrant</Username>
-            </AutoLogon>
             <OOBE>
                 <HideEULAPage>true</HideEULAPage>
                 <HideLocalAccountScreen>true</HideLocalAccountScreen>
@@ -157,5 +135,5 @@
             <EnableLUA>false</EnableLUA>
         </component>
     </settings>
-    <cpi:offlineImage cpi:source="wim:d:/sources/install.wim#Windows Server 2016 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi"/>
+    <cpi:offlineImage cpi:source="wim:d:/sources/install.wim#Windows Server 2019 SERVERSTANDARD" xmlns:cpi="urn:schemas-microsoft-com:cpi"/>
 </unattend>
